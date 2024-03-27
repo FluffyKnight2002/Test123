@@ -10,11 +10,80 @@
 
         <style>
 
-            /* Adjust the width of the search pane */
-            div.dtsp-panesContainer {
-                width: 300px; /* Set the desired width */
+
+            div.dtsp-verticalContainer{
+                display: flex;
+                flex-direction: row-reverse;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                align-content: flex-start;
+                align-items: flex-start;
             }
 
+            div.dtsp-verticalContainer div.dtsp-verticalPanes,
+            div.dtsp-verticalContainer div.container{
+                width: 30%;
+                flex-grow: 0;
+                flex-shrink: 0;
+                flex-basis: 0;
+            }
+
+            div.dtsp-verticalContainer div.dtsp-verticalPanes{
+                flex-grow: 0;
+                flex-shrink: 0;
+
+            }
+
+            div.dtsp-verticalPanes {
+                margin-left: 20px;
+            }
+
+            div.dtsp-title {
+                margin-right: 0px !important;
+                margin-top: 13px !important;
+            }
+
+            input.dtsp-search {
+                min-width: 0px !important;
+                padding-left: 0px !important;
+                margin: 0px !important;
+            }
+
+            div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes{
+                flex-direction: column;
+                flex-basis: 0px;
+            }
+
+            div.dtsp-verticalContainer div.dtsp-verticalPanes div.dtsp-searchPanes div.dtsp-searchPane{
+                flex-basis: 0px;
+            }
+
+            div.dtsp-verticalContainer div.container{
+                flex-grow: 1;
+                flex-shrink: 0;
+                flex-basis: 60%;
+            }
+
+            div.dtsp-panesContainer {
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                padding: 1em !important;
+            }
+
+            div.dtsp-titleRow {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            div.dtsp-titleRow div.dtsp-title {
+                margin-top: 0 !important;
+                padding-top: 0;
+            }
+
+            html.dark div.dtsp-panesContainer {
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
 
         </style>
     <title>DataTables</title>
@@ -22,7 +91,9 @@
 <body>
 
 
-<div class="container">
+<div class="dtsp-verticalContainer">
+    <div class="dtsp-verticalPanes"></div>
+    <div class="container">
     <table id="employees" class="table table-striped" style="width:100%">
         <thead>
         <tr>
@@ -37,7 +108,7 @@
         </thead>
     </table>
 </div>
-
+</div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.js"></script>
@@ -55,9 +126,10 @@
             ajax: '/employees-searchpanes-basic',
             serverSide: true,
             layout: {
-                top2: {
+                top2End: {
                     searchPanes: {
                         cascadePanes: true,
+                        layout: 'columns-1',
                         dtOpts: {
                             select:{
                                 style: 'multi'
@@ -92,7 +164,9 @@
 
         });
 
-
+        document
+            .querySelector('div.dtsp-verticalPanes')
+            .appendChild(table.searchPanes.container().get(0));
     });
 
 
