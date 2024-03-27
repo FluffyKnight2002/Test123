@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/select/2.0.0/css/select.dataTables.css"/>
 
 
-    <!--    <style>-->
+        <style>
 
-    <!--        table.dataTable > tbody > tr > .selected {-->
-    <!--        !important;-->
-    <!--            background-color: rgba(13, 110, 253, 0.9);-->
-    <!--            color: rgba(13, 110, 253, 0.9);-->
-    <!--        }-->
+            /* Adjust the width of the search pane */
+            div.dtsp-panesContainer {
+                width: 300px; /* Set the desired width */
+            }
 
-    <!--    </style>-->
+
+        </style>
     <title>DataTables</title>
 </head>
 <body>
@@ -55,61 +55,43 @@
             ajax: '/employees-searchpanes-basic',
             serverSide: true,
             layout: {
-                top2Start: {
-                    buttons: [
-                        {
-
-                            extend: 'searchPanes',
-                            config: {
-                                cascadePanes: true,
-
-                                dtOpts: {
-                                    select:{
-                                        style: 'multi'
-                                    },
-
-                                }
+                top2: {
+                    searchPanes: {
+                        cascadePanes: true,
+                        dtOpts: {
+                            select:{
+                                style: 'multi'
                             },
-
-
-
-                        }, {
-                            text: 'Reload',
-                            action: function (e, dt, node, config) {
-                                // table.ajax.reload()
-                                // table.searchPanes.clearSelections();// Clear searchPanes selections
-                                table.searchPanes.clearSelections();
-                            },
+                            scrollY: '100px'
                         }
-                    ]
+                    },
+
+
                 },
+
 
             },
-            columns: [
-                {data: 'id'},
-                {data: 'firstName'},
-                {data: 'lastName'},
-                {data: 'position'},
-                {data: 'age'},
-                {
-                    data: 'salary',
-                    render: function (data) {
-                        return data + '$';
+            columns:
+                [
+                    {data: 'id'},
+                    {data: 'firstName'},
+                    {data: 'lastName'},
+                    {data: 'position'},
+                    {data: 'age'},
+                    {
+                        data: 'salary',
+                        render: function (data) {
+                            return data + '$';
+                        }
+                    },
+                    {
+                        data: 'office.city',
+                        defaultContent: '-'
                     }
-                },
-                {
-                    data: 'office.city',
-                    defaultContent: '-'
-                }
-            ],
+                ],
 
         });
-        // table.on('draw.dt', function () {
-        //     if ($('.dtsp-emptyMessage').length > 0) {
-        //
-        //         dt.searchPanes.rebuildPane();
-        //     }
-        // });
+
 
     });
 
